@@ -31,24 +31,25 @@ msg_fin:    .asciiz "\nFIN DEL PROGRAMA."
 
 #include <iostream>
 #include <vector>
+#include <iomanip>
 
-void print_vect(float* vector,int size, std::string espacio = " "){
-    for(int i = 0, i < size, i++){
+void print_vect(float* v,int size, std::string espacio = " "){
+    for(int i = 0; i < size; i++){
         std::cout << v[i] << espacio;
     }
 }
 
-void change_elto(float* vector, int position, float val){
+void change_elto(float* v, int position, float val){
     v[position] = val;
 }
 
-void swap(float* vector, int pos1, int pos2){
+void swap(float* v, int pos1, int pos2){
     float aux = v[pos1];
     v[pos1] = v[pos2];
     v[pos2] = aux; 
 }
 
-void mirror(float* vector, int size){
+void mirror(float* v, int size){
     if(size == 0 || size == 1){
         return;
     }
@@ -65,7 +66,7 @@ float prod_esc(float* v1, float* v2, int size){
         return 0;
     }
     float result = 0;
-    for(int i = 0, i < size, i++){
+    for(int i = 0; i < size; i++){
         result = mult_add(v1[i],v2[i],result);
     }
     return result;
@@ -75,8 +76,8 @@ float prod_esc(float* v1, float* v2, int size){
 int main(void){
 
     float v1[40], v2[40];
-    int n1, n2;
-    for(int i{0}, i < 40, i++){
+    int n1{0}, n2{0};
+    for(int i{0}; i < 40; i++){
         v1[i] = i + 10;
         v2[i] = 40 -i;
         n1++;
@@ -87,13 +88,13 @@ int main(void){
 
     int option{1};
     while(option != 0){
-    std::cout << "Vector con dimension" << n1 << sd::endl; 
-    print_vector(v1,n1);
+    std::cout << "Vector con dimension  " << std::setprecision(8)<< n1 << std::endl; 
+    print_vect(v1,n1);
 
     std::cout << std::endl;
 
-    std::cout << "Vector con dimension" << n2 << sd::endl; 
-    print_vector(v2,n2);
+    std::cout << "Vector con dimension  "  << n2 << std::endl; 
+    print_vect(v2,n2);
 
     std::cout << std::endl;
     
@@ -104,11 +105,11 @@ int main(void){
 	std::cout << "(0) Salir" << std::endl << std::endl;
     
 	std::cout << "Introducir opción : ";
-	std::cin >> opcion;
+	std::cin >> option;
 
 
-        switch(option){
-        case '1':
+    switch(option){
+        case 1:{
 
             int elegir_vector{0};
             int dimension{0};
@@ -122,60 +123,79 @@ int main(void){
             }
 
             if(elegir_vector == 1){
-                n1 == dimension;
+                n1 = dimension;
             }
             else if(elegir_vector == 2){
-                n2 == dimension;
+                n2 = dimension;
             }
             else{
                 std::cout << "Error: opcion incorrecta." << std::endl;
             }
-
+        }
             break;
-        case '2':
+        case 2:{
 
             int elegir_vector{0};
             int position{0};
-            int val{0};
+            float val{0};
             std::cout << "Elija vector para realizar la operacion (1) para v1 (2) para v2: " << std::endl;
             std::cin >> elegir_vector;
-            if((elegir_vector != 1)||(elegir_vector != 2)){
+            if((elegir_vector != 1)&&(elegir_vector != 2)){
                 std::cout << "Error: opcion incorrecta." << std::endl;
                 break;
             }
 
             std::cout << "Elija el indice del elemento a cambiar: " << std::endl;
-            std::cin >> posicion;
-            if ((vector == 1 && (position <= 0 || position > n1))||(vector == 2 && (position <= 0 || position > n2))){
+            std::cin >> position;
+            if ((elegir_vector == 1 && (position <= 0 || position > n1))||(elegir_vector == 2 && (position <= 0 || position > n2))){
                 std::cout << "Error: Indice incorrecto." << std::endl;
                 break;
             }
 
             std::cout << "Introduce nuevo valor para el elemento elegido:" << std::endl;
-            std::cin >> val
+            std::cin >> val;
 
             if(elegir_vector == 1){
-                chage_elto(v1,position-1, val);
+                change_elto(v1,position-1, val);
             }
             else if(elegir_vector == 2){
-                chage_elto(v2,position-1, val);
+                change_elto(v2,position-1, val);
+            }
+        }
+            break;
+        case 3:{
+            int elegir_vector{0};
+            std::cout << "Elija vector para realizar la operacion (1) para v1 (2) para v2: " << std::endl;
+            std::cin >> elegir_vector;
+            if((elegir_vector != 1)&&(elegir_vector != 2)){
+                std::cout << "Error: opcion incorrecta." << std::endl;
+                break;
             }
 
-            break;
-        case '3':
-
-            break;
-        case '4':
-
-            break;
-        case '0':
-            break;
-        default:
-            std::cout << "Error: opcion incorrecta." << std::endl;
-            break;
+            if(elegir_vector == 1){
+                mirror(v1,n1);
+            }
+            else if(elegir_vector == 2){
+                mirror(v2,n2);
+            }
         }
-
+            break;
+        case 4:{
+            if(n1 != n2){
+                std::cout << "Error: Los vectores tienen distinta dimension." << std::endl;
+                break;
+            }
+            std::cout << "El producto escalar de los vectores es: " << prod_esc(v1,v2,n1) << std::endl;
+        }
+            break;
+        case 0:
+            break;
+        default:{
+            std::cout << "Error: opcion incorrecta." << std::endl;
+        }
+            break;
     }
 
     std::cout << "FIN DEL PROGRAMA." << std::endl;
+    }
 }
